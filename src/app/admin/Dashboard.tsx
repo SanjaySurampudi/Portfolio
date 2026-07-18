@@ -17,7 +17,9 @@ import {
   Upload,
   Globe,
   PlusCircle,
-  FileText
+  FileText,
+  ArrowUp,
+  ArrowDown
 } from "lucide-react";
 import {
   logoutAdminAction,
@@ -125,6 +127,9 @@ interface DashboardProps {
 
 type TabType = "projects" | "skills" | "experiences" | "certifications" | "contacts" | "guestbook";
 
+// Keep this in sync with the <option> list in the Skills form below
+const SKILL_CATEGORIES = ["Programming", "Technologies", "VLSI", "Software", "Tools", "Soft Skills"];
+
 export default function Dashboard({
   adminUser,
   initialProjects,
@@ -157,7 +162,7 @@ export default function Dashboard({
     title: "", tagline: "", description: "", imageUrl: "", githubUrl: "", demoUrl: "", techStack: "", featured: false, order: 0
   });
   const [skillForm, setSkillForm] = useState({
-    name: "", category: "Languages", proficiency: "Expert", icon: "Code", order: 0
+    name: "", category: "Programming", proficiency: "Expert", icon: "Code", order: 0
   });
   const [experienceForm, setExperienceForm] = useState({
     company: "", role: "", location: "", startDate: "", endDate: "", description: "", technologies: "", order: 0
@@ -217,7 +222,7 @@ export default function Dashboard({
       setSkillForm(
         item
           ? { name: item.name, category: item.category, proficiency: item.proficiency, icon: item.icon, order: item.order }
-          : { name: "", category: "Languages", proficiency: "Expert", icon: "Code", order: 0 }
+          : { name: "", category: "Programming", proficiency: "Expert", icon: "Code", order: 0 }
       );
     } else if (type === "experiences") {
       setExperienceForm(
@@ -343,6 +348,148 @@ export default function Dashboard({
     }
   };
 
+  // Move a skill up/down within its own category by swapping `order` with its neighbor
+  const moveSkill = async (skill: Skill, direction: "up" | "down") => {
+    const categorySkills = skills
+      .filter((s) => s.category === skill.category)
+      .sort((a, b) => a.order - b.order);
+    const index = categorySkills.findIndex((s) => s.id === skill.id);
+    const neighborIndex = direction === "up" ? index - 1 : index + 1;
+    if (neighborIndex < 0 || neighborIndex >= categorySkills.length) return;
+
+    const neighbor = categorySkills[neighborIndex];
+    const skillNewOrder = neighbor.order;
+    const neighborNewOrder = skill.order;
+
+    try {
+      await Promise.all([
+        updateSkillAction(skill.id, {
+          name: skill.name, category: skill.category, proficiency: skill.proficiency, icon: skill.icon,
+          order: skillNewOrder,
+        }),
+        updateSkillAction(neighbor.id, {
+          name: neighbor.name, category: neighbor.category, proficiency: neighbor.proficiency, icon: neighbor.icon,
+          order: neighborNewOrder,
+        }),
+      ]);
+      setSkills((prev) =>
+        prev.map((s) => {
+          if (s.id === skill.id) return { ...s, order: skillNewOrder };
+          if (s.id === neighbor.id) return { ...s, order: neighborNewOrder };
+          return s;
+        })
+      );
+    } catch (err: any) {
+      alert("Reorder failed: " + err.message);
+    }
+  };
+
+  // Move a project up/down by swapping `order` with its neighbor in the full list
+  const moveProject = async (project: Project, direction: "up" | "down") => {
+    const sorted = [...projects].sort((a, b) => a.order - b.order);
+    const index = sorted.findIndex((p) => p.id === project.id);
+    const neighborIndex = direction === "up" ? index - 1 : index + 1;
+    if (neighborIndex < 0 || neighborIndex >= sorted.length) return;
+
+    const neighbor = sorted[neighborIndex];
+    const projectNewOrder = neighbor.order;
+    const neighborNewOrder = project.order;
+
+    try {
+      await Promise.all([
+        updateProjectAction(project.id, {
+          title: project.title, tagline: project.tagline, description: project.description,
+          imageUrl: project.imageUrl, githubUrl: project.githubUrl || undefined, demoUrl: project.demoUrl || undefined,
+          techStack: project.techStack, featured: project.featured, order: projectNewOrder,
+        }),
+        updateProjectAction(neighbor.id, {
+          title: neighbor.title, tagline: neighbor.tagline, description: neighbor.description,
+          imageUrl: neighbor.imageUrl, githubUrl: neighbor.githubUrl || undefined, demoUrl: neighbor.demoUrl || undefined,
+          techStack: neighbor.techStack, featured: neighbor.featured, order: neighborNewOrder,
+        }),
+      ]);
+      setProjects((prev) =>
+        prev.map((p) => {
+          if (p.id === project.id) return { ...p, order: projectNewOrder };
+          if (p.id === neighbor.id) return { ...p, order: neighborNewOrder };
+          return p;
+        })
+      );
+    } catch (err: any) {
+      alert("Reorder failed: " + err.message);
+    }
+  };
+
+  // Move an experience up/down by swapping `order` with its neighbor in the full list
+  const moveExperience = async (exp: Experience, direction: "up" | "down") => {
+    const sorted = [...experiences].sort((a, b) => a.order - b.order);
+    const index = sorted.findIndex((e) => e.id === exp.id);
+    const neighborIndex = direction === "up" ? index - 1 : index + 1;
+    if (neighborIndex < 0 || neighborIndex >= sorted.length) return;
+
+    const neighbor = sorted[neighborIndex];
+    const expNewOrder = neighbor.order;
+    const neighborNewOrder = exp.order;
+
+    try {
+      await Promise.all([
+        updateExperienceAction(exp.id, {
+          company: exp.company, role: exp.role, location: exp.location, startDate: exp.startDate,
+          endDate: exp.endDate, description: exp.description, technologies: exp.technologies, order: expNewOrder,
+        }),
+        updateExperienceAction(neighbor.id, {
+          company: neighbor.company, role: neighbor.role, location: neighbor.location, startDate: neighbor.startDate,
+          endDate: neighbor.endDate, description: neighbor.description, technologies: neighbor.technologies, order: neighborNewOrder,
+        }),
+      ]);
+      setExperiences((prev) =>
+        prev.map((e) => {
+          if (e.id === exp.id) return { ...e, order: expNewOrder };
+          if (e.id === neighbor.id) return { ...e, order: neighborNewOrder };
+          return e;
+        })
+      );
+    } catch (err: any) {
+      alert("Reorder failed: " + err.message);
+    }
+  };
+
+  // Move a certification up/down by swapping `order` with its neighbor in the full list
+  const moveCertification = async (cert: Certification, direction: "up" | "down") => {
+    const sorted = [...certifications].sort((a, b) => a.order - b.order);
+    const index = sorted.findIndex((c) => c.id === cert.id);
+    const neighborIndex = direction === "up" ? index - 1 : index + 1;
+    if (neighborIndex < 0 || neighborIndex >= sorted.length) return;
+
+    const neighbor = sorted[neighborIndex];
+    const certNewOrder = neighbor.order;
+    const neighborNewOrder = cert.order;
+
+    try {
+      await Promise.all([
+        updateCertificationAction(cert.id, {
+          title: cert.title, issuer: cert.issuer, issueDate: cert.issueDate,
+          credentialId: cert.credentialId || undefined, verifyUrl: cert.verifyUrl || undefined,
+          imageUrl: cert.imageUrl || undefined, order: certNewOrder,
+        }),
+        updateCertificationAction(neighbor.id, {
+          title: neighbor.title, issuer: neighbor.issuer, issueDate: neighbor.issueDate,
+          credentialId: neighbor.credentialId || undefined, verifyUrl: neighbor.verifyUrl || undefined,
+          imageUrl: neighbor.imageUrl || undefined, order: neighborNewOrder,
+        }),
+      ]);
+      setCertifications((prev) =>
+        prev.map((c) => {
+          if (c.id === cert.id) return { ...c, order: certNewOrder };
+          if (c.id === neighbor.id) return { ...c, order: neighborNewOrder };
+          return c;
+        })
+      );
+    } catch (err: any) {
+      alert("Reorder failed: " + err.message);
+    }
+  };
+
   // Mark contact submission as read
   const handleMarkRead = async (id: string) => {
     try {
@@ -420,7 +567,7 @@ export default function Dashboard({
             </div>
 
             <div className={styles.itemsGrid}>
-              {projects.map((proj) => (
+              {[...projects].sort((a, b) => a.order - b.order).map((proj, i, arr) => (
                 <div key={proj.id} className={styles.dashboardCard}>
                   <div>
                     <h3 className={styles.cardTitle}>{proj.title}</h3>
@@ -431,6 +578,8 @@ export default function Dashboard({
                     </div>
                   </div>
                   <div className={styles.cardActions}>
+                    <button onClick={() => moveProject(proj, "up")} disabled={i === 0} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", opacity: i === 0 ? 0.4 : 1 }} title="Move Up"><ArrowUp size={14} /></button>
+                    <button onClick={() => moveProject(proj, "down")} disabled={i === arr.length - 1} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", opacity: i === arr.length - 1 ? 0.4 : 1 }} title="Move Down"><ArrowDown size={14} /></button>
                     <button onClick={() => openEditor("projects", proj)} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px" }} title="Edit"><Edit size={14} /></button>
                     <button onClick={() => handleDelete("projects", proj.id)} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", color: "red" }} title="Delete"><Trash2 size={14} /></button>
                   </div>
@@ -450,20 +599,36 @@ export default function Dashboard({
               </button>
             </div>
 
-            <div className={styles.itemsGrid}>
-              {skills.map((skill) => (
-                <div key={skill.id} className={styles.dashboardCard}>
-                  <div>
-                    <h3 className={styles.cardTitle}>{skill.name}</h3>
-                    <div style={{ fontSize: "0.85rem", color: "var(--fg-muted)", marginTop: "0.25rem" }}>{skill.category} • {skill.proficiency}</div>
-                  </div>
-                  <div className={styles.cardActions}>
-                    <button onClick={() => openEditor("skills", skill)} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px" }}><Edit size={14} /></button>
-                    <button onClick={() => handleDelete("skills", skill.id)} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", color: "red" }}><Trash2 size={14} /></button>
+            {SKILL_CATEGORIES.map((category) => {
+              const categorySkills = skills
+                .filter((s) => s.category === category)
+                .sort((a, b) => a.order - b.order);
+              if (categorySkills.length === 0) return null;
+
+              return (
+                <div key={category} style={{ marginBottom: "1.5rem" }}>
+                  <h3 style={{ fontSize: "0.95rem", color: "var(--fg-muted)", margin: "1rem 0 0.5rem" }}>
+                    {category}
+                  </h3>
+                  <div className={styles.itemsGrid}>
+                    {categorySkills.map((skill, i) => (
+                      <div key={skill.id} className={styles.dashboardCard}>
+                        <div>
+                          <h3 className={styles.cardTitle}>{skill.name}</h3>
+                          <div style={{ fontSize: "0.85rem", color: "var(--fg-muted)", marginTop: "0.25rem" }}>{skill.category} • {skill.proficiency}</div>
+                        </div>
+                        <div className={styles.cardActions}>
+                          <button onClick={() => moveSkill(skill, "up")} disabled={i === 0} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", opacity: i === 0 ? 0.4 : 1 }} title="Move Up"><ArrowUp size={14} /></button>
+                          <button onClick={() => moveSkill(skill, "down")} disabled={i === categorySkills.length - 1} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", opacity: i === categorySkills.length - 1 ? 0.4 : 1 }} title="Move Down"><ArrowDown size={14} /></button>
+                          <button onClick={() => openEditor("skills", skill)} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px" }}><Edit size={14} /></button>
+                          <button onClick={() => handleDelete("skills", skill.id)} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", color: "red" }}><Trash2 size={14} /></button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
         )}
 
@@ -478,7 +643,7 @@ export default function Dashboard({
             </div>
 
             <div className={styles.itemsGrid}>
-              {experiences.map((exp) => (
+              {[...experiences].sort((a, b) => a.order - b.order).map((exp, i, arr) => (
                 <div key={exp.id} className={styles.dashboardCard}>
                   <div>
                     <h3 className={styles.cardTitle}>{exp.role}</h3>
@@ -486,6 +651,8 @@ export default function Dashboard({
                     <div style={{ fontSize: "0.8rem", color: "var(--fg-muted)", marginTop: "0.25rem" }}>{exp.startDate} - {exp.endDate}</div>
                   </div>
                   <div className={styles.cardActions}>
+                    <button onClick={() => moveExperience(exp, "up")} disabled={i === 0} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", opacity: i === 0 ? 0.4 : 1 }} title="Move Up"><ArrowUp size={14} /></button>
+                    <button onClick={() => moveExperience(exp, "down")} disabled={i === arr.length - 1} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", opacity: i === arr.length - 1 ? 0.4 : 1 }} title="Move Down"><ArrowDown size={14} /></button>
                     <button onClick={() => openEditor("experiences", exp)} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px" }}><Edit size={14} /></button>
                     <button onClick={() => handleDelete("experiences", exp.id)} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", color: "red" }}><Trash2 size={14} /></button>
                   </div>
@@ -506,7 +673,7 @@ export default function Dashboard({
             </div>
 
             <div className={styles.itemsGrid}>
-              {certifications.map((cert) => (
+              {[...certifications].sort((a, b) => a.order - b.order).map((cert, i, arr) => (
                 <div key={cert.id} className={styles.dashboardCard}>
                   <div>
                     <h3 className={styles.cardTitle}>{cert.title}</h3>
@@ -514,6 +681,8 @@ export default function Dashboard({
                     <div style={{ fontSize: "0.8rem", color: "var(--fg-muted)", marginTop: "0.25rem" }}>{cert.issueDate}</div>
                   </div>
                   <div className={styles.cardActions}>
+                    <button onClick={() => moveCertification(cert, "up")} disabled={i === 0} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", opacity: i === 0 ? 0.4 : 1 }} title="Move Up"><ArrowUp size={14} /></button>
+                    <button onClick={() => moveCertification(cert, "down")} disabled={i === arr.length - 1} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", opacity: i === arr.length - 1 ? 0.4 : 1 }} title="Move Down"><ArrowDown size={14} /></button>
                     <button onClick={() => openEditor("certifications", cert)} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px" }}><Edit size={14} /></button>
                     <button onClick={() => handleDelete("certifications", cert.id)} className="btn btn-secondary" style={{ padding: "0.4rem", borderRadius: "6px", color: "red" }}><Trash2 size={14} /></button>
                   </div>
@@ -703,12 +872,9 @@ export default function Dashboard({
                       <div className="form-group">
                         <label className="form-label" htmlFor="skill-cat">Category</label>
                         <select className="form-select" id="skill-cat" value={skillForm.category} onChange={(e) => setSkillForm({ ...skillForm, category: e.target.value })}>
-                          <option>Programming</option>
-                          <option>Technologies</option>
-                          <option>VLSI</option>
-                          <option>Software</option>
-                          <option>Tools</option>
-                          <option>Soft Skills</option>
+                          {SKILL_CATEGORIES.map((cat) => (
+                            <option key={cat}>{cat}</option>
+                          ))}
                         </select>
                       </div>
                       <div className="form-group">
