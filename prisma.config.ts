@@ -11,7 +11,5 @@ export default defineConfig({
   datasource: {
     // Runtime database URL — use Supabase Transaction pooler (port 6543) in production
     url: process.env["DATABASE_URL"],
-    // Used by Prisma Migrate — Supabase direct/session connection (port 5432)
-    directUrl: process.env["DIRECT_URL"],
   },
 });
