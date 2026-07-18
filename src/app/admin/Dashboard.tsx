@@ -201,16 +201,16 @@ export default function Dashboard({
       setProjectForm(
         item
           ? {
-              title: item.title,
-              tagline: item.tagline,
-              description: item.description,
-              imageUrl: item.imageUrl,
-              githubUrl: item.githubUrl || "",
-              demoUrl: item.demoUrl || "",
-              techStack: item.techStack,
-              featured: item.featured,
-              order: item.order,
-            }
+            title: item.title,
+            tagline: item.tagline,
+            description: item.description,
+            imageUrl: item.imageUrl,
+            githubUrl: item.githubUrl || "",
+            demoUrl: item.demoUrl || "",
+            techStack: item.techStack,
+            featured: item.featured,
+            order: item.order,
+          }
           : { title: "", tagline: "", description: "", imageUrl: "", githubUrl: "", demoUrl: "", techStack: "", featured: false, order: 0 }
       );
     } else if (type === "skills") {
@@ -223,29 +223,29 @@ export default function Dashboard({
       setExperienceForm(
         item
           ? {
-              company: item.company,
-              role: item.role,
-              location: item.location,
-              startDate: item.startDate,
-              endDate: item.endDate,
-              description: item.description,
-              technologies: item.technologies,
-              order: item.order,
-            }
+            company: item.company,
+            role: item.role,
+            location: item.location,
+            startDate: item.startDate,
+            endDate: item.endDate,
+            description: item.description,
+            technologies: item.technologies,
+            order: item.order,
+          }
           : { company: "", role: "", location: "", startDate: "", endDate: "Present", description: "", technologies: "", order: 0 }
       );
     } else if (type === "certifications") {
       setCertForm(
         item
           ? {
-              title: item.title,
-              issuer: item.issuer,
-              issueDate: item.issueDate,
-              credentialId: item.credentialId || "",
-              verifyUrl: item.verifyUrl || "",
-              imageUrl: item.imageUrl || "",
-              order: item.order,
-            }
+            title: item.title,
+            issuer: item.issuer,
+            issueDate: item.issueDate,
+            credentialId: item.credentialId || "",
+            verifyUrl: item.verifyUrl || "",
+            imageUrl: item.imageUrl || "",
+            order: item.order,
+          }
           : { title: "", issuer: "", issueDate: "", credentialId: "", verifyUrl: "", imageUrl: "", order: 0 }
       );
     }
@@ -703,9 +703,12 @@ export default function Dashboard({
                       <div className="form-group">
                         <label className="form-label" htmlFor="skill-cat">Category</label>
                         <select className="form-select" id="skill-cat" value={skillForm.category} onChange={(e) => setSkillForm({ ...skillForm, category: e.target.value })}>
-                          <option>Languages</option>
-                          <option>Frameworks & Libraries</option>
-                          <option>Databases & Tools</option>
+                          <option>Programming</option>
+                          <option>Technologies</option>
+                          <option>VLSI</option>
+                          <option>Software</option>
+                          <option>Tools</option>
+                          <option>Soft Skills</option>
                         </select>
                       </div>
                       <div className="form-group">
