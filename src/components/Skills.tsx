@@ -17,7 +17,7 @@ interface SkillsProps {
 
 export default function Skills({ skills }: SkillsProps) {
   // Define categories to preserve specific order
-  const categories = ["Languages", "Frameworks & Libraries", "Databases & Tools"];
+  const categories = ["VLSI", "Programming", "Technologies", "Softwares", "Tools", "Soft Skills"];
 
   // Group skills by category
   const groupedSkills = skills.reduce((acc, skill) => {
