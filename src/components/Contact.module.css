@@ -1,0 +1,212 @@
+.section {
+  padding: 80px 0;
+  position: relative;
+}
+
+.heading {
+  font-size: 2.25rem;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.headingNumber {
+  font-family: var(--font-mono);
+  color: var(--accent-primary);
+  font-size: 1.25rem;
+}
+
+/* Contact Grid */
+.grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 3.5rem;
+  margin-bottom: 4rem;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.text {
+  font-size: 1.05rem;
+  color: var(--fg-secondary);
+  line-height: 1.6;
+}
+
+.infoDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.infoIcon {
+  color: var(--accent-primary);
+  background-color: var(--border-glow);
+  padding: 0.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoLabel {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+.infoValue {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fg-primary);
+  text-decoration: none;
+}
+
+.infoValue:hover {
+  color: var(--accent-primary);
+}
+
+/* Form Styling */
+.formCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 2.25rem;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+}
+
+.formTitle {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.statusMessage {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.statusSuccess {
+  background-color: rgba(39, 201, 63, 0.1);
+  border: 1px solid rgba(39, 201, 63, 0.3);
+  color: #27c93f;
+}
+
+.statusError {
+  background-color: rgba(255, 95, 86, 0.1);
+  border: 1px solid rgba(255, 95, 86, 0.3);
+  color: #ff5f56;
+}
+
+/* Guestbook Section */
+.guestbookContainer {
+  border-top: 1px solid var(--border-color);
+  padding-top: 4rem;
+}
+
+.guestbookHeading {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.guestbookSub {
+  font-size: 0.95rem;
+  color: var(--fg-secondary);
+  margin-bottom: 2rem;
+}
+
+.guestbookGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 3.5rem;
+}
+
+@media (max-width: 900px) {
+  .guestbookGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.guestbookForm {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 1.75rem;
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  height: fit-content;
+}
+
+.guestbookBoard {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.guestbookMessage {
+  padding: 1rem;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.guestbookMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+
+.guestbookUser {
+  font-weight: 600;
+  color: var(--accent-primary);
+}
+
+.guestbookDate {
+  font-family: var(--font-mono);
+}
+
+.guestbookText {
+  font-size: 0.9rem;
+  color: var(--fg-secondary);
+  line-height: 1.4;
+  word-break: break-word;
+}

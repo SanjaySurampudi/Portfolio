@@ -1,0 +1,153 @@
+.section {
+  padding: 80px 0;
+  position: relative;
+}
+
+.heading {
+  font-size: 2.25rem;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.headingNumber {
+  font-family: var(--font-mono);
+  color: var(--accent-primary);
+  font-size: 1.25rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3.5rem;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.journeyCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.journeyText {
+  font-size: 1.05rem;
+  color: var(--fg-secondary);
+}
+
+.codeBox {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  box-shadow: var(--card-shadow);
+}
+
+.codeBoxHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.codeBoxDots {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.codeBoxDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-color);
+}
+
+.codeBoxTitle {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+
+.codeBoxBody {
+  padding: 1.25rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--fg-secondary);
+}
+
+.interestsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .interestsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.interestCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all var(--transition-fast);
+}
+
+.interestCard:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow);
+}
+
+.interestIcon {
+  color: var(--accent-primary);
+  margin-bottom: 0.25rem;
+}
+
+.interestTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.interestDesc {
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+}
+
+.objectiveBox {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(99, 102, 241, 0.03) 100%);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.objectiveTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--fg-primary);
+}
+
+.objectiveText {
+  font-size: 0.95rem;
+  color: var(--fg-secondary);
+  font-style: italic;
+}

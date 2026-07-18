@@ -1,0 +1,163 @@
+.section {
+  padding: 80px 0;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.heading {
+  font-size: 2.25rem;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.headingNumber {
+  font-family: var(--font-mono);
+  color: var(--accent-primary);
+  font-size: 1.25rem;
+}
+
+/* Timeline Container */
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 7px;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--accent-primary) 0%,
+    var(--border-color) 80%,
+    transparent 100%
+  );
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.timelineItem:last-child {
+  margin-bottom: 0;
+}
+
+/* Timeline Node Dot */
+.timelineDot {
+  position: absolute;
+  left: -2rem;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+  border: 3px solid var(--accent-primary);
+  z-index: 1;
+  box-shadow: 0 0 0 4px var(--border-glow);
+  transform: translateX(-7px);
+  transition: all var(--transition-fast);
+}
+
+.timelineItem:hover .timelineDot {
+  background-color: var(--accent-primary);
+  box-shadow: 0 0 0 6px var(--border-glow);
+}
+
+.timelineContent {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  padding: 1.75rem;
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  transition: border-color var(--transition-fast);
+}
+
+.timelineItem:hover .timelineContent {
+  border-color: var(--accent-primary);
+}
+
+.timelineHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.roleTitle {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--fg-primary);
+}
+
+.company {
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+.duration {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+  margin-top: 0.25rem;
+}
+
+.responsibilities {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.responsibilityItem {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: 0.95rem;
+  color: var(--fg-secondary);
+  line-height: 1.5;
+}
+
+.responsibilityItem::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent-primary);
+  font-weight: bold;
+}
+
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.techTag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background-color: var(--bg-tertiary);
+  color: var(--fg-muted);
+  border: 1px solid var(--border-color);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}

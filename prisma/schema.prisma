@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  tagline     String
+  description String   // Supports Markdown
+  imageUrl    String
+  githubUrl   String?
+  demoUrl     String?
+  techStack   String   // Comma-separated tags (e.g. "React, Next.js, PostgreSQL")
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Experience {
+  id           String   @id @default(uuid())
+  company      String
+  role         String
+  location     String
+  startDate    String   // e.g. "June 2024"
+  endDate      String   // e.g. "Present" or "August 2024"
+  description  String   // Newline-separated bullet points
+  technologies String   // Comma-separated technologies
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+}
+
+model Skill {
+  id          String   @id @default(uuid())
+  name        String
+  category    String   // e.g. "Frontend", "Backend", "Languages", "Tools"
+  proficiency String   // e.g. "Expert", "Advanced", "Intermediate"
+  icon        String   // Lucide icon name as a string identifier
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Certification {
+  id            String   @id @default(uuid())
+  title         String
+  issuer        String
+  issueDate     String   // e.g. "May 2025"
+  credentialId  String?
+  verifyUrl     String?
+  imageUrl      String?
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+}
+
+model GuestbookMessage {
+  id        String   @id @default(uuid())
+  name      String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model ContactSubmission {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  content   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
