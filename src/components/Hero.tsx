@@ -130,7 +130,7 @@ export default function Hero() {
               <a href="mailto:sanjaysurampudi03@gmail.com" className={styles.socialLink} aria-label="Email">
                 <Mail size={20} />
               </a>
-              <a href="/Resume.pdf" download className={styles.socialLink} aria-label="Download Resume" title="Download Resume">
+              <a href="/resume.pdf" download className={styles.socialLink} aria-label="Download Resume" title="Download Resume">
                 <FileText size={20} />
               </a>
             </div>
