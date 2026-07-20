@@ -83,7 +83,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className={styles.logo}>
             <Terminal size={22} style={{ color: "var(--accent-primary)" }} />
-            <span className={styles.logoText}>dev.portfolio</span>
+            <span className={styles.logoText}>SSK's.portfolio</span>
             <span className={styles.logoTag}>src</span>
           </Link>
 
